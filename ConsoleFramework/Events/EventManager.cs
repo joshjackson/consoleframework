@@ -127,7 +127,7 @@ namespace ConsoleFramework.Events {
         }
 
         /// <summary>
-        /// Возвращает список таргетов, подписанных на указанное RoutedEvent.
+        /// Returns a list of targets subscribed to the specified RoutedEvent.
         /// </summary>
         private static List<RoutedEventTargetInfo> getTargetsSubscribedTo(RoutedEvent routedEvent) {
             if (null == routedEvent)
@@ -243,19 +243,18 @@ namespace ConsoleFramework.Events {
                     rawPosition = new Point(mouseEvent.dwMousePosition.X, mouseEvent.dwMousePosition.Y);
                     lastMousePosition = rawPosition;
                 } else {
-                    // При событии MOUSE_WHEELED в Windows некорректно устанавливается mouseEvent.dwMousePosition
-                    // Поэтому для определения элемента, над которым производится прокручивание колёсика, мы
-                    // вынуждены сохранять координаты, полученные при предыдущем событии мыши
+                    // During the MOUSE_WHEELED event in Windows, the mouseEvent.dwMousePosition is set incorrectly.
+                    // Therefore, to determine the element over which the mouse wheel is scrolled,
+                    // we have to save the coordinates received during the previous mouse event.
                     rawPosition = lastMousePosition;
                 }
 
                 Control topMost = VisualTreeHelper.FindTopControlUnderMouse(rootElement,
                     Control.TranslatePoint(null, rawPosition, rootElement));
 
-                // если мышь захвачена контролом, то события перемещения мыши доставляются только ему,
-                // события, связанные с нажатием мыши - тоже доставляются только ему, вместо того
-                // контрола, над которым событие было зарегистрировано. Такой механизм необходим,
-                // например, для корректной обработки перемещений окон (вверх или в стороны)
+                // If the mouse is captured by a control, mouse movement events are delivered only to it,
+                // and mouse click events are also delivered only to it, instead of the control over which the event occurred.
+                // This mechanism is necessary, for example, to correctly handle window movements (up or sideways).
                 Control source = (inputCaptureStack.Count != 0) ? inputCaptureStack.Peek() : topMost;
 
                 // No sense to further process event with no source control
@@ -449,8 +448,7 @@ namespace ConsoleFramework.Events {
                 if (null == targetInfo)
                     return false;
 
-                // если имеется контрол, захватывающий события, события получает только он сам
-                // и его дочерние контролы
+                // If there is a control capturing the events, only it and its child controls receive the events.
                 if ( capturingControl != null ) {
                     if ( !(args.Source is Control) ) return false;
                     if ( !isControlAllowedToReceiveEvents( ( Control ) args.Source, capturingControl ) )
@@ -474,9 +472,8 @@ namespace ConsoleFramework.Events {
             List<Control> path = new List<Control>();
             Control current = source;
             while (null != current) {
-                // та же логика с контролом, захватившим обработку сообщений
-                // если имеется контрол, захватывающий события, события получает только он сам
-                // и его дочерние контролы
+                // The same logic applies to a control that has captured message handling.
+                // If there is a control capturing the events, only it and its child controls receive the events.
                 if ( capturingControl == null || isControlAllowedToReceiveEvents( current, capturingControl ) ) {
                     path.Insert( 0, current );
                     current = current.Parent;
@@ -504,9 +501,9 @@ namespace ConsoleFramework.Events {
                         }
                     }
                 }
-                // для парных Preview-событий запускаем соответствующие настоящие события,
-                // сохраняя при этом Handled (если Preview событие помечено как Handled=true,
-                // то и настоящее событие будет маршрутизировано с Handled=true)
+                // For paired Preview events, trigger the corresponding actual events,
+                // while preserving the Handled state (if the Preview event is marked as Handled=true,
+                // then the actual event will also be routed with Handled=true).
                 if (routedEvent == Control.PreviewMouseDownEvent) {
                     MouseButtonEventArgs mouseArgs = ( ( MouseButtonEventArgs ) args );
                     MouseButtonEventArgs argsNew = new MouseButtonEventArgs(

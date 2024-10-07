@@ -60,7 +60,7 @@ namespace Examples
             {
                 string result = reader.ReadToEnd();
                 MyDataContext dataContext = new MyDataContext( );
-                dataContext.Str = "Введите заголовок";
+                dataContext.Str = "Enter the title";
                 createdFromXaml = XamlParser.CreateFromXaml<Window>(result, dataContext, new List<string>()
                     {
                         "clr-namespace:Xaml;assembly=ConsoleFramework",
@@ -101,7 +101,7 @@ namespace Examples
                 };
                 button.OnClick += (sender, eventArgs) => {
                     Debug.WriteLine("Click");
-                    MessageBox.Show( "Окно сообщения", "Внимание ! Тестовое сообщение", delegate( MessageBoxResult result ) {  } );
+                    MessageBox.Show( "Message Window", "Attention! Test message", delegate( MessageBoxResult result ) {  } );
                     Control label = panel.FindDirectChildByName("label1");
                     if (label.Visibility == Visibility.Visible) {
                         label.Visibility = Visibility.Collapsed;
@@ -117,12 +117,12 @@ namespace Examples
 //                        Width = 14
 //HorizontalAlignment = HorizontalAlignment.Stretch
                     };
-                comboBox.Items.Add( "Сделать одно" );
-                comboBox.Items.Add("Сделать второе");
-                comboBox.Items.Add("Ничего не делать");
+                comboBox.Items.Add( "Do one" );
+                comboBox.Items.Add("Do the second");
+                comboBox.Items.Add("Do Nothing");
                 ListBox listbox = new ListBox(  );
                 listbox.Items.Add( "First item" );
-                listbox.Items.Add( "second item1!!!!!!1fff" );
+                listbox.Items.Add( "Second item" );
                 listbox.HorizontalAlignment = HorizontalAlignment.Stretch;
                 //listbox.Width = 10;
 
@@ -150,19 +150,19 @@ namespace Examples
                 };
 
                 GroupBox groupBox = new GroupBox(  );
-                groupBox.Title = "Группа";
+                groupBox.Title = "Group";
                 ScrollViewer scrollViewer = new ScrollViewer(  );
                 ListBox listBox = new ListBox(  );
                 for ( int i = 0; i < 30; i++ ) {
-                    listBox.Items.Add(string.Format("Длинный элемент {0}", i));
+                    listBox.Items.Add(string.Format("Long Element {0}", i));
                 }
-//                listBox.Items.Add( "Длинный элемент" );
-//                listBox.Items.Add("Длинный элемент 2");
-//                listBox.Items.Add("Длинный элемент 3");
-//                listBox.Items.Add("Длинный элемент 4");
-//                listBox.Items.Add("Длинный элемент 5");
-//                listBox.Items.Add("Длинный элемент 6");
-//                listBox.Items.Add("Длинный элемент 700");
+//                listBox.Items.Add( "Long Element" );
+//                listBox.Items.Add("Long Element 2");
+//                listBox.Items.Add("Long Element 3");
+//                listBox.Items.Add("Long Element 4");
+//                listBox.Items.Add("Long Element 5");
+//                listBox.Items.Add("Long Element 6");
+//                listBox.Items.Add("Long Element 700");
                 listBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                 listBox.VerticalAlignment = VerticalAlignment.Stretch;
                 scrollViewer.Content = listBox;
@@ -175,7 +175,7 @@ namespace Examples
                 ComboBox combo = new ComboBox();
                 combo.ShownItemsCount = 10;
                 for ( int i = 0; i < 30; i++ ) {
-                    combo.Items.Add(string.Format("Длинный элемент {0}", i));
+                    combo.Items.Add(string.Format("Long Element {0}", i));
                 }
 //                groupBox.Content = combo;
 
@@ -188,7 +188,7 @@ namespace Examples
                     //MinWidth = 10,
                     Height = 14,
                     Name = "LongTitleWindow",
-                    Title = "Очень длинное название окна",
+                    Title = "Very long window title",
                     Content = groupBox
                 });
                 windowsHost.Show(window1);
